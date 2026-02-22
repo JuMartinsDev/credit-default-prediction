@@ -61,3 +61,24 @@ df_clean_1 = df.loc[~feature_zero_mask, :].copy()
 df_clean_1.shape
 ##verificando se o problema doi resolvido
 print(df_clean_1['ID'].nunique())
+
+
+##EXPLORANDO E LIMPANDO DADOS
+##informações sobre o dataset - quando removemos as linhas ele manteve a contagem e se resetarmos ele deixa em sequencia novamente
+df_clean_1.reset_index(drop=True).info
+##vizualizando as primeras 5 linhas
+print(df_clean_1['PAY_1'].head(5))
+##contagem de valores únicos
+print(df_clean_1['PAY_1'].value_counts())
+
+##Criar máscara booleana para remover valores ausentes
+valid_pay_1_mask = df_clean_1['PAY_1'] != 'Not available'
+print(valid_pay_1_mask[0:5])
+sum(valid_pay_1_mask)
+##limpando as linhas com valores ausentes mantendo as colunas
+df_clean_2 = df_clean_1.loc[valid_pay_1_mask, :].copy()
+##verificando o shape do dataframe
+print(df_clean_2.shape)
+##substituindo coluna original (object) pela nova (int)
+df_clean_2['PAY_1'] = df_clean_2['PAY_1'].astype('int64')
+df_clean_2[('PAY_1, PAY_2')].info()
