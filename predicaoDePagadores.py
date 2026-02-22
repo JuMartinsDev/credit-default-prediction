@@ -7,21 +7,57 @@ import pandas as pd
 ##carregando dados - armazenamos a base na variável
 df = pd.read_excel('./base/default_of_credit_card_clients__courseware_version_1_21_19.xls')
 
-##Verificando a integridade dos dados - Qualidade dos dados
-##examinando as colunas
-print('Nomenclatura das colunas: ', df.columns)
-
 ##explorando dados
 print(df.head())
+
+##VERIFICANDO A INTEGRAIDADE DOS DADOS - QUALIDADE DOS DADOS
+##examinando as colunas
+print('Nomenclatura das colunas: ', df.columns)
 
 ##verificando qtd de linhas e colunas com a base
 print('Quantidade linhas e colunas: ', df.shape)
 ## verificando quantidade de IDs únicos
 print('Quantidade de IDs únicos: ', df['ID'].nunique())
 
-## verificando a frequência de cada ID
+##verificando a frequência de cada ID
 id_counts = df['ID'].value_counts()
 print('Frequência dos IDs: ', id_counts.head())
 
 ##contagem de repetiçãogit add .
 print('Repetição de IDs: ', id_counts.value_counts())
+
+##ANÁLISE DE DADOS DUPLICADOS
+## IDs que se repetem - bool
+dupe_mask = id_counts == 2
+print(dupe_mask[:5])
+
+## exibindo os 5 primeiros indices
+print(id_counts.index[:5])
+#selecionar os IDs duplicados - filtra bool dupe_mask - todo ID == true é armazenado
+dupe_ids = id_counts.index[dupe_mask]
+print(dupe_ids)
+
+##conversão dos dupe_ids em lista
+dupe_ids = list(dupe_ids)
+print(len(dupe_ids))
+
+##Verificando os 5 primeiros itens de 'dupe_ids'
+dupe_ids[:5]
+
+##selecionando linhas com IDs duplicados
+##filtragem para verificar se ID está em dupe_id 
+df.loc[df['ID'].isin(dupe_ids[0:3])]
+
+##preparando a matriz booleana para filtragem do dataframe
+##se todas as colunas estiverem zeradas, a linha não tem valor para nós
+df_zero_mask = df == 0
+##Criando uma série booleana -[: (linha), 1: (coluna)] - iloc (linhas e colunas)
+feature_zero_mask = df_zero_mask.iloc[:, 1:].all(axis=1)
+print('Soma de linhas com todas as colunas zeradas (Exeto ID): ', sum(feature_zero_mask))
+##Eliminar as linhas com todas as colunas zeradas - ~ significa o contrário - loc seleciona todos os falses
+## loc escolhe linhas e colunas da tabela - : é todas as colunas
+df_clean_1 = df.loc[~feature_zero_mask, :].copy()
+##verificando o dataframe
+df_clean_1.shape
+##verificando se o problema doi resolvido
+print(df_clean_1['ID'].nunique())
