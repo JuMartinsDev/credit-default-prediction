@@ -33,3 +33,44 @@ def visualize_data(df_clean_2):
     plt.ylabel('Defalut Rate')
     plt.xlabel('Education Level: ordinal encoding')
     plt.show()
+
+
+def implementacao_ohe(df_clean_2):
+    ##criando uma coluna vazia
+    df_clean_2['EDUCATION_CAT'] = 'none'
+    ##Examinando as primeiras 10 linhas
+    print(df_clean_2[['EDUCATION', 'EDUCATION_CAT']].head(10))
+    ##criando um dicionário de mapeamento de categorias
+    cat_mapping={
+        1:'graduate school',
+        2:'university',
+        3:'high school',
+        4:'others'
+    }
+    #print(cat_mapping)
+    ##aplicando o mapeamento de categorias - e substitui a coluna anterior
+    df_clean_2['EDUCATION_CAT'] = df_clean_2['EDUCATION'].map(cat_mapping)
+    print(df_clean_2[['EDUCATION', 'EDUCATION_CAT']].head(10))
+
+    ##codificação de características com OHE - gera df em que gera 4 colunas em que tudo é zero menos o valor correspondente
+    edu_ohe = pd.get_dummies(df_clean_2, ['EDUCATION_CAT'])
+    print(edu_ohe.head(10))
+
+    #concatenando o dataframe original com OHE - axis=1 concatena lado a lado
+    df_with_one = pd.concat([df_clean_2, edu_ohe], axis=1)
+    df_with_one[['EDUCATION_CAT', 'graduate school', 'high school', 'others', 'university']].head(10)
+    df_with_one.shape
+
+    df_with_one.to_csv('cleaned_data.csv', index=False)
+
+##TESTES
+if __name__ == "__main__":
+    import pandas as pd
+
+    # Criando um DataFrame de teste só para ver os prints
+    df_test = pd.DataFrame({
+        'EDUCATION': [1, 2, 3, 4, 1, 2, 3, 4, 1, 2]
+    })
+
+    # Chama a função para ver os prints
+    implementacao_ohe(df_test)
