@@ -5,6 +5,7 @@ from src.loadData import load_data
 from src.cleanData import clean_data
 from src.exploreData import explore_data
 from src.visualizeData import visualize_data
+from src.visualizeData import implementacao_ohe
 
 caminho = './base/default_of_credit_card_clients__courseware_version_1_21_19.xls'
 
@@ -19,3 +20,6 @@ explore_data(df_clean)
 
 ## visualizando dados
 visualize_data(df_clean)
+
+#implementação OHE
+implementacao_ohe(df_clean)
