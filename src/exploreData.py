@@ -2,7 +2,6 @@
 ## Responsável por explorar estatísticas do dataset
 
 def explore_data(df):
-    print("Explorando dados")
     ## vizualizando as primeiras 5 linhas
     print(df['PAY_1'].head(5))
 

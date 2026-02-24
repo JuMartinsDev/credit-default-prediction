@@ -8,7 +8,6 @@ def load_data(caminho):
     ## temos bons e maus pagadores, temos que identificar quem são para liberar cartões de crédito.
     ## Empresa não sabe pra quem oferecer
 
-    print("Carregando dados")
     ## carregando dados - armazenamos a base na variável
     df = pd.read_excel(caminho)
 

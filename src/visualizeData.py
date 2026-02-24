@@ -2,6 +2,7 @@
 ## Responsável por visualizações gráficas
 
 import matplotlib.pyplot as plt
+import pandas as pd
 
 def visualize_data(df_clean_2):
     ##Explorando limite de crédito e características demográficas
@@ -17,13 +18,13 @@ def visualize_data(df_clean_2):
     print(df_clean_2['EDUCATION'].value_counts())
 
     ##transformar 0, 5 e 6 em outros (4 = outros) - inplace modifica o dataframe original
-    df_clean_2['EDUCATION'].replace(to_replace=(0,5,6), value = 4, inplace=True)
+    df_clean_2['EDUCATION'] = df_clean_2['EDUCATION'].replace((0,5,6), 4)
     print(df_clean_2['EDUCATION'].value_counts())
 
     ##contagem de ocorrências por categoria em 'Marriage'
     df_clean_2['MARRIAGE'].value_counts()
     ##transformar 0 em outros (3)
-    df_clean_2['MARRIAGE'].replace(to_replace=(0), value=3, inplace=True)
+    df_clean_2['MARRIAGE'] = df_clean_2['MARRIAGE'].replace(0, 3)
     df_clean_2['MARRIAGE'].value_counts()
 
     ##Características categóricas (experimento)
@@ -53,15 +54,10 @@ def implementacao_ohe(df_clean_2):
     print(df_clean_2[['EDUCATION', 'EDUCATION_CAT']].head(10))
 
     ##codificação de características com OHE - gera df em que gera 4 colunas em que tudo é zero menos o valor correspondente
-    edu_ohe = pd.get_dummies(df_clean_2, ['EDUCATION_CAT'])
-    print(edu_ohe.head(10))
+    edu_ohe = pd.get_dummies(df_clean_2, columns=['EDUCATION_CAT'])
+    print(edu_ohe.head(10))    
 
-    #concatenando o dataframe original com OHE - axis=1 concatena lado a lado
-    df_with_one = pd.concat([df_clean_2, edu_ohe], axis=1)
-    df_with_one[['EDUCATION_CAT', 'graduate school', 'high school', 'others', 'university']].head(10)
-    df_with_one.shape
-
-    df_with_one.to_csv('cleaned_data.csv', index=False)
+    return edu_ohe
 
 ##TESTES
 if __name__ == "__main__":
