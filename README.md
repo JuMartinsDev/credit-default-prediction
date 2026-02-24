@@ -53,9 +53,7 @@ O modelo apresenta desempenho consistente, com boa capacidade de identificar cli
 ---
 
 ## 🗂️ Estrutura do Projeto
-
-```
-
+.
 ├── main.py
 ├── base/
 │   └── default_of_credit_card_clients.xls
@@ -66,7 +64,7 @@ O modelo apresenta desempenho consistente, com boa capacidade de identificar cli
 │   ├── visualizeData.py
 │   ├── trainModel.py
 │   ├── modelPipeline.py
-├── README.md
+└── README.md
 
 ````
 
